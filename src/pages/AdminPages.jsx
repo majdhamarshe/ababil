@@ -676,6 +676,7 @@ function CategoryModal({ category, close, saved }) {
   async function submit(e) {
     e.preventDefault();
     const f = new FormData(e.currentTarget);
+    f.set('isActive', String(e.currentTarget.elements.isActive.checked));
     try {
       await adminService.saveCategory(category._id, f);
       saved();
