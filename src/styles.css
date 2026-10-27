@@ -1327,6 +1327,12 @@ main {
   grid-template-columns: 245px minmax(0, 1fr);
   gap: 32px;
 }
+.filtersColumn {
+  display: contents;
+}
+.mobileFiltersToggle {
+  display: none;
+}
 .filters {
   background: var(--color-cream);
   color: var(--color-text);
@@ -1766,11 +1772,32 @@ main {
   .catalogLayout {
     display: block;
   }
+  .filtersColumn {
+    display: block;
+  }
+  .mobileFiltersToggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    margin-bottom: 14px;
+    padding: 13px 16px;
+    border: 1px solid var(--color-gold);
+    background: var(--color-cream);
+    color: var(--color-primary);
+    font: inherit;
+    font-weight: 800;
+  }
   .filters {
+    display: none;
     box-sizing: border-box;
     width: 100%;
     margin-bottom: 24px;
     padding: 18px;
+  }
+  .filters.isOpen {
+    display: block;
   }
   .filters label,
   .filterAdvanced,
@@ -2619,6 +2646,24 @@ main {
   }
 }
 @media (max-width: 560px) {
+  .adminPage {
+    padding: 20px 14px;
+  }
+  .adminCard,
+  .statCard {
+    padding: 15px;
+  }
+  .statCard b {
+    font-size: 22px;
+  }
+  .adminFilters input:not([type='checkbox']),
+  .adminFilters select {
+    min-width: 0;
+    width: 100%;
+  }
+  .adminPrimary {
+    width: 100%;
+  }
   .variantStockGrid {
     grid-template-columns: 1fr;
   }

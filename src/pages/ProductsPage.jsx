@@ -18,6 +18,7 @@ export function ProductsPage({ forcedCategory }) {
   const [color, setColor] = useState('');
   const [size, setSize] = useState('');
   const [sort, setSort] = useState('newest');
+  const [filtersOpen, setFiltersOpen] = useState(false);
   useEffect(() => setCategory(forcedCategory ?? ''), [forcedCategory]);
   useEffect(() => {
     productService
@@ -91,100 +92,115 @@ export function ProductsPage({ forcedCategory }) {
         <p>ابحث ورتب النتائج بالطريقة التي تناسبك.</p>
       </div>
       <div className="catalogLayout">
-        <aside className="filters">
-          <div className="filterTitle">
-            <h2>
-              <SlidersHorizontal size={18} /> تصفية
-            </h2>
-            <button onClick={reset}>مسح</button>
-          </div>
-          <label>
-            ابحث بالاسم
-            <div className="searchField">
-              <Search size={16} />
-              <input
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder="ابحث عن منتج"
-              />
+        <div className="filtersColumn">
+          <button
+            className="mobileFiltersToggle"
+            type="button"
+            onClick={() => setFiltersOpen((isOpen) => !isOpen)}
+            aria-expanded={filtersOpen}
+            aria-controls="product-filters"
+          >
+            <SlidersHorizontal size={18} />
+            {filtersOpen ? 'إخفاء الفلاتر' : 'تصفية المنتجات'}
+          </button>
+          <aside
+            id="product-filters"
+            className={`filters${filtersOpen ? ' isOpen' : ''}`}
+          >
+            <div className="filterTitle">
+              <h2>
+                <SlidersHorizontal size={18} /> تصفية
+              </h2>
+              <button onClick={reset}>مسح</button>
             </div>
-          </label>
-          <label>
-            الفئة
-            <select
-              value={category}
-              onChange={(event) => setCategory(event.target.value)}
-            >
-              <option value="">الكل</option>
-              {categories.map((item) => (
-                <option key={item.slug} value={item.slug}>
-                  {item.name}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label>
-            حتى {money(maxPrice)}
-            <input
-              type="range"
-              min="50"
-              max="2000"
-              step="50"
-              value={maxPrice}
-              onChange={(event) => setMaxPrice(+event.target.value)}
-            />
-          </label>
-          <div className="filterAdvanced">
-            <label className="check">
-              <input
-                type="checkbox"
-                checked={featured}
-                onChange={(event) => setFeatured(event.target.checked)}
-              />{' '}
-              المنتجات المميزة
-            </label>
-            <label className="check">
-              <input
-                type="checkbox"
-                checked={discounted}
-                onChange={(event) => setDiscounted(event.target.checked)}
-              />{' '}
-              عليها خصم
-            </label>
-            <label className="check">
-              <input
-                type="checkbox"
-                checked={inStock}
-                onChange={(event) => setInStock(event.target.checked)}
-              />{' '}
-              متوفر بالمخزون
+            <label>
+              ابحث بالاسم
+              <div className="searchField">
+                <Search size={16} />
+                <input
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder="ابحث عن منتج"
+                />
+              </div>
             </label>
             <label>
-              اللون
+              الفئة
               <select
-                value={color}
-                onChange={(event) => setColor(event.target.value)}
+                value={category}
+                onChange={(event) => setCategory(event.target.value)}
               >
-                <option value="">كل الألوان</option>
-                {colors.map((item) => (
-                  <option key={item}>{item}</option>
+                <option value="">الكل</option>
+                {categories.map((item) => (
+                  <option key={item.slug} value={item.slug}>
+                    {item.name}
+                  </option>
                 ))}
               </select>
             </label>
             <label>
-              المقاس
-              <select
-                value={size}
-                onChange={(event) => setSize(event.target.value)}
-              >
-                <option value="">كل المقاسات</option>
-                {sizes.map((item) => (
-                  <option key={item}>{item}</option>
-                ))}
-              </select>
+              حتى {money(maxPrice)}
+              <input
+                type="range"
+                min="50"
+                max="2000"
+                step="50"
+                value={maxPrice}
+                onChange={(event) => setMaxPrice(+event.target.value)}
+              />
             </label>
-          </div>
-        </aside>
+            <div className="filterAdvanced">
+              <label className="check">
+                <input
+                  type="checkbox"
+                  checked={featured}
+                  onChange={(event) => setFeatured(event.target.checked)}
+                />{' '}
+                المنتجات المميزة
+              </label>
+              <label className="check">
+                <input
+                  type="checkbox"
+                  checked={discounted}
+                  onChange={(event) => setDiscounted(event.target.checked)}
+                />{' '}
+                عليها خصم
+              </label>
+              <label className="check">
+                <input
+                  type="checkbox"
+                  checked={inStock}
+                  onChange={(event) => setInStock(event.target.checked)}
+                />{' '}
+                متوفر بالمخزون
+              </label>
+              <label>
+                اللون
+                <select
+                  value={color}
+                  onChange={(event) => setColor(event.target.value)}
+                >
+                  <option value="">كل الألوان</option>
+                  {colors.map((item) => (
+                    <option key={item}>{item}</option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                المقاس
+                <select
+                  value={size}
+                  onChange={(event) => setSize(event.target.value)}
+                >
+                  <option value="">كل المقاسات</option>
+                  {sizes.map((item) => (
+                    <option key={item}>{item}</option>
+                  ))}
+                </select>
+              </label>
+            </div>
+          </aside>
+        </div>
         <div>
           <div className="listingToolbar">
             <b>{items.length} منتج</b>
