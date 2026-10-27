@@ -40,9 +40,10 @@ router.post(
   requireAdmin,
   uploadCategoryImage,
   asyncHandler(async (req, res) => {
+    const [uploadedImage] = await imageUrls(req.file ? [req.file] : []);
     const data = categorySchema.parse({
       ...req.body,
-      image: imageUrls(req.file ? [req.file] : [])[0] || req.body.image || '',
+      image: uploadedImage || req.body.image || '',
     });
     const category = await Category.create({
       ...data,
@@ -59,9 +60,10 @@ router.patch(
   requireAdmin,
   uploadCategoryImage,
   asyncHandler(async (req, res) => {
+    const [uploadedImage] = await imageUrls(req.file ? [req.file] : []);
     const data = categorySchema.partial().parse({
       ...req.body,
-      ...(req.file ? { image: imageUrls([req.file])[0] } : {}),
+      ...(uploadedImage ? { image: uploadedImage } : {}),
     });
     if (data.slug || data.name) data.slug = toSlug(data.slug || data.name);
     const category = await Category.findByIdAndUpdate(req.params.id, data, {

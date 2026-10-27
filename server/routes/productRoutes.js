@@ -87,7 +87,7 @@ const sortMap = {
   featured: { featured: -1, createdAt: -1 },
 };
 const populate = { path: 'category', select: 'name slug icon description' };
-function parseProductBody(body, files, base = {}) {
+async function parseProductBody(body, files, base = {}) {
   const mainFiles = Array.isArray(files) ? files : files?.images || [];
   const uploadedColorImages = Array.isArray(files)
     ? []
@@ -96,6 +96,10 @@ function parseProductBody(body, files, base = {}) {
     body.colorImageColors === undefined
       ? []
       : parseArray(body.colorImageColors);
+  const [uploadedMainImages, uploadedColorUrls] = await Promise.all([
+    imageUrls(mainFiles),
+    imageUrls(uploadedColorImages),
+  ]);
   const data = {
     ...base,
     ...body,
@@ -108,7 +112,7 @@ function parseProductBody(body, files, base = {}) {
       ...uploadedColorImages
         .map((file, index) => ({
           color: colorImageColors[index] || '',
-          image: `/uploads/${file.filename}`,
+          image: uploadedColorUrls[index],
         }))
         .filter((item) => item.color),
     ],
@@ -118,7 +122,7 @@ function parseProductBody(body, files, base = {}) {
       ...(body.images === undefined
         ? base.images || []
         : parseArray(body.images)),
-      ...imageUrls(mainFiles),
+      ...uploadedMainImages,
     ],
   };
   return validateAndCalculateVariants(productSchema.parse(data));
@@ -213,7 +217,7 @@ router.post(
   requireAdmin,
   uploadImages,
   asyncHandler(async (req, res) => {
-    const data = parseProductBody(req.body, req.files);
+    const data = await parseProductBody(req.body, req.files);
     const product = await Product.create({
       ...data,
       slug: toSlug(data.slug || data.name),
@@ -234,7 +238,7 @@ router.patch(
       ...current.toObject(),
       category: String(current.category),
     };
-    const data = parseProductBody(req.body, req.files, currentData);
+    const data = await parseProductBody(req.body, req.files, currentData);
     if (req.body.slug || req.body.name)
       data.slug = toSlug(req.body.slug || req.body.name);
     const product = await Product.findByIdAndUpdate(req.params.id, data, {
