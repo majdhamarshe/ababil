@@ -64,6 +64,9 @@ const brandedSvg = qrSvg.replace(
   `<rect x="${svgCenter - svgFrameSize / 2}" y="${svgCenter - svgFrameSize / 2}" width="${svgFrameSize}" height="${svgFrameSize}" rx="22" fill="#fbf7ed" stroke="#c9a45c" stroke-width="7"/><image href="data:image/png;base64,${svgLogo.toString('base64')}" x="${svgCenter - svgLogoSize / 2}" y="${svgCenter - svgLogoSize / 2}" width="${svgLogoSize}" height="${svgLogoSize}"/></svg>`
 );
 
-await fs.writeFile(path.join(publicDirectory, 'ababil-store-qr.svg'), brandedSvg);
+await fs.writeFile(
+  path.join(publicDirectory, 'ababil-store-qr.svg'),
+  brandedSvg
+);
 
 console.log(`Created QR code for ${storeUrl}`);
