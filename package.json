@@ -10,6 +10,7 @@
     "build": "vite build",
     "test:api": "node --test server/tests/app.test.js server/tests/integration.test.js",
     "seed:admin": "node server/scripts/seedAdmin.js",
+    "generate:qr": "node scripts/generate-store-qr.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
@@ -27,6 +28,7 @@
     "lucide-react": "^1.57.0",
     "mongoose": "^9.11.2",
     "multer": "^2.4.0",
+    "qrcode": "^1.5.4",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "react-router-dom": "^7.18.4",
