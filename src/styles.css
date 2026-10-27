@@ -1763,6 +1763,36 @@ main {
   .checkoutLayout {
     grid-template-columns: 1fr;
   }
+  .catalogLayout {
+    display: block;
+  }
+  .filters {
+    box-sizing: border-box;
+    width: 100%;
+    margin-bottom: 24px;
+    padding: 18px;
+  }
+  .filters label,
+  .filterAdvanced,
+  .filterAdvanced label {
+    box-sizing: border-box;
+    min-width: 0;
+    width: 100%;
+  }
+  .filters .check {
+    justify-content: flex-start;
+    white-space: normal;
+  }
+  .filters .check input {
+    flex: 0 0 auto;
+    width: 20px;
+    height: 20px;
+    margin: 0;
+  }
+  .listingToolbar {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
   .detailImage,
   .detailImage img {
     min-height: 350px;
