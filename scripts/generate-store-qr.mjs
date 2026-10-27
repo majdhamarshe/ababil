@@ -41,6 +41,11 @@ await sharp(pngQr)
   .png()
   .toFile(path.join(publicDirectory, 'ababil-store-qr.png'));
 
+await sharp(path.join(publicDirectory, 'ababil-store-qr.png'))
+  .resize(900, 900)
+  .png({ compressionLevel: 9 })
+  .toFile(path.join(publicDirectory, 'ababil-store-qr-share.png'));
+
 const svgSize = 1200;
 const svgLogoSize = 126;
 const svgFrameSize = 180;
