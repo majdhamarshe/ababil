@@ -2597,13 +2597,20 @@ main {
 @media (max-width: 900px) {
   .adminShell {
     grid-template-columns: 1fr;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
   }
   .adminSidebar {
     min-height: auto;
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
     padding: 12px 18px;
     position: sticky;
     top: 0;
     z-index: 20;
+    overflow: hidden;
   }
   .adminSidebar img,
   .adminSidebar > p {
@@ -2611,8 +2618,12 @@ main {
   }
   .adminSidebar nav {
     display: flex;
+    box-sizing: border-box;
+    min-width: 0;
+    max-width: 100%;
     overflow: auto;
     gap: 4px;
+    -webkit-overflow-scrolling: touch;
   }
   .adminSidebar nav a {
     white-space: nowrap;
@@ -2635,7 +2646,18 @@ main {
     grid-template-columns: 1fr;
   }
   .adminPage {
+    box-sizing: border-box;
+    min-width: 0;
+    max-width: 100%;
     padding: 28px 18px;
+  }
+  .adminMain,
+  .statsGrid,
+  .adminTwoCol,
+  .adminCard,
+  .adminTableWrap {
+    min-width: 0;
+    max-width: 100%;
   }
   .adminHeading {
     align-items: flex-start;
@@ -2646,6 +2668,10 @@ main {
   }
 }
 @media (max-width: 560px) {
+  .statsGrid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
   .adminPage {
     padding: 20px 14px;
   }
